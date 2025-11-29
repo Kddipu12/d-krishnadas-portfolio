@@ -23,73 +23,48 @@ export default function Hero() {
           className="text-center space-y-6"
         >
           <motion.h1 
-            className="text-7xl md:text-9xl font-cursive"
+            className="text-7xl md:text-9xl font-cursive font-semibold"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 1.5 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
           >
-            <motion.span 
-              className="bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-cyan bg-clip-text text-transparent"
-              initial={{ 
-                backgroundSize: "0% 100%",
-                backgroundPosition: "0% 0%"
-              }}
-              animate={{ 
-                backgroundSize: "200% 100%",
-                backgroundPosition: "100% 0%"
-              }}
-              transition={{ 
-                duration: 2.5,
-                delay: 0.3,
-                ease: "easeInOut"
-              }}
-              style={{
-                backgroundImage: "linear-gradient(90deg, hsl(190, 95%, 55%) 0%, hsl(190, 95%, 55%) 50%, transparent 50%)",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-              }}
-            >
+            <span className="bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-cyan bg-clip-text text-transparent inline-block">
               {Array.from("D Krishnadas").map((char, index) => (
                 <motion.span
                   key={index}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{
-                    duration: 0.1,
-                    delay: 0.3 + index * 0.15,
-                    ease: "easeOut"
+                    duration: 0.05,
+                    delay: 0.4 + index * 0.1,
                   }}
+                  className="inline-block"
                 >
-                  {char}
+                  {char === " " ? "\u00A0" : char}
                 </motion.span>
               ))}
-            </motion.span>
+            </span>
           </motion.h1>
           
           <motion.div
-            className="relative"
+            className="space-y-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 2.5, duration: 0.8 }}
+            transition={{ delay: 1.8, duration: 0.8 }}
           >
             <p className="text-2xl md:text-4xl font-semibold bg-gradient-to-r from-neon-cyan to-neon-blue bg-clip-text text-transparent">
               Software Engineer
             </p>
-            <motion.p 
-              className="text-xl md:text-2xl text-primary/80 font-light tracking-wider mt-1"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 2.8, duration: 0.6 }}
-            >
+            <p className="text-xl md:text-2xl text-primary/80 font-light tracking-wider">
               Research & Development
-            </motion.p>
+            </p>
           </motion.div>
           
           <motion.p
             className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 3.2, duration: 0.8 }}
+            transition={{ delay: 2.2, duration: 0.8 }}
           >
             Building AI-driven automation systems, real-user monitoring pipelines, 
             and ML-powered solutions
@@ -99,7 +74,7 @@ export default function Hero() {
             className="flex flex-wrap gap-4 justify-center pt-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 3.4, duration: 0.8 }}
+            transition={{ delay: 2.6, duration: 0.8 }}
           >
             <Button
               variant="default"
@@ -128,7 +103,7 @@ export default function Hero() {
             className="flex gap-6 justify-center pt-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 3.6, duration: 0.8 }}
+            transition={{ delay: 2.8, duration: 0.8 }}
           >
             <a 
               href="mailto:dkrishnadas.mec@gmail.com" 
@@ -167,7 +142,7 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 10, 0] }}
-        transition={{ delay: 3.8, duration: 1.5, repeat: Infinity }}
+        transition={{ delay: 3, duration: 1.5, repeat: Infinity }}
       >
         <div className="w-6 h-10 border-2 border-primary rounded-full flex justify-center">
           <div className="w-1 h-3 bg-primary rounded-full mt-2" />
