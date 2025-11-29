@@ -76,6 +76,10 @@ All colors MUST be HSL.
     font-weight: 700;
   }
   
+  .font-cursive {
+    font-family: 'Allura', cursive;
+  }
+  
   code, pre {
     font-family: 'JetBrains Mono', monospace;
   }
