@@ -41,23 +41,23 @@ const experiences = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-24 relative">
-      <div className="container mx-auto px-6">
+    <section id="experience" className="py-12 sm:py-16 md:py-24 relative">
+      <div className="container mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4">
             <span className="bg-gradient-to-r from-neon-cyan to-neon-blue bg-clip-text text-transparent">
               Experience
             </span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-neon-cyan to-neon-blue mx-auto mb-16" />
+          <div className="w-20 h-1 bg-gradient-to-r from-neon-cyan to-neon-blue mx-auto mb-8 sm:mb-12 md:mb-16" />
         </motion.div>
 
-        <div className="space-y-8 max-w-4xl mx-auto">
+        <div className="space-y-6 sm:space-y-8 max-w-4xl mx-auto">
           {experiences.map((exp, index) => (
             <motion.div
               key={index}
@@ -66,24 +66,24 @@ export default function Experience() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="bg-card/50 backdrop-blur-sm border-border/50 p-8 hover:shadow-xl transition-shadow">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                  <div>
-                    <h3 className="text-2xl font-bold text-foreground mb-2">{exp.company}</h3>
-                    <p className="text-xl text-primary font-semibold">{exp.role}</p>
+              <Card className="bg-card/50 backdrop-blur-sm border-border/50 p-4 sm:p-6 md:p-8 hover:shadow-xl transition-shadow">
+                <div className="flex flex-col sm:flex-row sm:items-start md:items-center md:justify-between mb-4 sm:mb-6 gap-2">
+                  <div className="flex-1">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1 sm:mb-2">{exp.company}</h3>
+                    <p className="text-lg sm:text-xl text-primary font-semibold">{exp.role}</p>
                   </div>
-                  <Badge className="bg-primary/20 text-primary border-primary mt-2 md:mt-0">
+                  <Badge className="bg-primary/20 text-primary border-primary text-xs sm:text-sm w-fit sm:w-auto">
                     {exp.period}
                   </Badge>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   {exp.projects.map((project, projIndex) => (
-                    <div key={projIndex} className="border-l-2 border-primary/50 pl-4">
-                      <h4 className="text-lg font-semibold text-foreground mb-2">
+                    <div key={projIndex} className="border-l-2 border-primary/50 pl-3 sm:pl-4">
+                      <h4 className="text-base sm:text-lg font-semibold text-foreground mb-1 sm:mb-2">
                         {project.name}
                       </h4>
-                      <p className="text-muted-foreground leading-relaxed">
+                      <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                         {project.description}
                       </p>
                     </div>
