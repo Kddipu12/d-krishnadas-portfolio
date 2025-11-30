@@ -3,7 +3,7 @@
 A modern, responsive portfolio website showcasing my work as a Software Engineer (R&D) specializing in AI-driven automation, ML-powered solutions, and backend engineering.
 
 
-Visit the live portfolio: [https://krishnadas-d.github.io/aesthetic-animation-portfolio/](https://krishnadas-d.github.io/aesthetic-animation-portfolio/)
+Visit the live portfolio: [https://kddipu12.github.io/d-krishnadas-portfolio/](https://kddipu12.github.io/d-krishnadas-portfolio/)
 
 ## 📧 Contact
 
