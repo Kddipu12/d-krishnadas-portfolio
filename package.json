@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://krishnadas-d.github.io/aesthetic-animation-portfolio/",
+  "homepage": "https://krishnadas-d.github.io/d-krishnadas-portfolio/",
 
   "scripts": {
     "dev": "vite",

@@ -4,7 +4,7 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  base: "/aesthetic-animation-portfolio/",  // 🔥 REQUIRED FOR GITHUB PAGES
+  base: "/d-krishnadas-portfolio/",  // 🔥 REQUIRED FOR GITHUB PAGES
   server: {
     host: "::",
     port: 8080,
