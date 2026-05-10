@@ -1,6 +1,4 @@
 import { motion } from "framer-motion";
-import { Card } from "./ui/card";
-import { Badge } from "./ui/badge";
 
 const experiences = [
   {
@@ -49,58 +47,52 @@ const experiences = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-12 sm:py-16 md:py-24 relative">
-      <div className="container mx-auto px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4">
-            <span className="bg-gradient-to-r from-neon-cyan to-neon-blue bg-clip-text text-transparent">
-              Experience
-            </span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-neon-cyan to-neon-blue mx-auto mb-8 sm:mb-12 md:mb-16" />
-        </motion.div>
-
-        <div className="space-y-6 sm:space-y-8 max-w-4xl mx-auto">
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Card className="bg-card/50 backdrop-blur-sm border-border/50 p-4 sm:p-6 md:p-8 hover:shadow-xl transition-shadow">
-                <div className="flex flex-col sm:flex-row sm:items-start md:items-center md:justify-between mb-4 sm:mb-6 gap-2">
-                  <div className="flex-1">
-                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1 sm:mb-2">{exp.company}</h3>
-                    <p className="text-lg sm:text-xl text-primary font-semibold">{exp.role}</p>
-                  </div>
-                  <Badge className="bg-primary/20 text-primary border-primary text-xs sm:text-sm w-fit sm:w-auto">
-                    {exp.period}
-                  </Badge>
-                </div>
-
-                <div className="space-y-4 sm:space-y-6">
-                  {exp.projects.map((project, projIndex) => (
-                    <div key={projIndex} className="border-l-2 border-primary/50 pl-3 sm:pl-4">
-                      <h4 className="text-base sm:text-lg font-semibold text-foreground mb-1 sm:mb-2">
-                        {project.name}
-                      </h4>
-                      <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                        {project.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-            </motion.div>
-          ))}
+    <section id="experience" className="relative">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="mb-16"
+      >
+        <div className="flex items-center gap-4 mb-4">
+          <span className="text-primary font-mono text-sm">03.</span>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase">Experience</h2>
+          <div className="h-px bg-gray-800 flex-1 ml-4" />
         </div>
+      </motion.div>
+
+      <div className="space-y-16">
+        {experiences.map((exp, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            className="group"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div className="md:col-span-1">
+                <div className="text-sm font-mono text-gray-500 mb-2">{exp.period}</div>
+                <h3 className="text-xl font-bold text-white mb-1">{exp.company}</h3>
+                <div className="text-primary font-mono text-sm">{exp.role}</div>
+              </div>
+
+              <div className="md:col-span-3 space-y-8">
+                {exp.projects.map((project, projIndex) => (
+                  <div key={projIndex} className="relative pl-6 border-l border-gray-800 group-hover:border-primary/50 transition-colors">
+                    <div className="absolute w-2 h-2 rounded-full bg-black border border-primary -left-[5px] top-1.5" />
+                    <h4 className="text-lg font-bold text-white mb-2">{project.name}</h4>
+                    <p className="text-gray-400 font-mono text-sm leading-relaxed">
+                      {project.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

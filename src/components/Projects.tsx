@@ -1,69 +1,87 @@
 import { motion } from "framer-motion";
-import { Card } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { ExternalLink } from "lucide-react";
+import { Github, ExternalLink } from "lucide-react";
 
 const projects = [
   {
-    title: "Orma AI: Memory Support Bot",
-    description: "Built a WhatsApp chatbot using LangChain and RAG to assist patients in recording and retrieving memories. Implemented PostgreSQL for persistent memory logging to ensure accurate retrieval of patient history.",
-    tech: ["Langchain", "OpenAI API", "PostgreSQL", "RAG", "WhatsApp API"],
-    link: "#",
+    title: "InsightOps - Multimodal Medical Document Analysis",
+    description: "Developed a secure and reliable platform for processing large volumes of multimodal medical documents using advanced ML models like Phi-3 Vision and LayoutLMv3.",
+    tech: ["FastAPI", "React", "PostgreSQL", "Phi-3", "LayoutLMv3", "Docker"],
+    github: "https://github.com/Kddipu12",
+    link: "https://insightops.example.com"
+  },
+  {
+    title: "Lumiere - End-to-End Deep Learning Framework",
+    description: "Built a comprehensive deep learning framework offering a Keras-like API. Included fundamental components like dense, convolutional, pooling, dropout layers, optimizers, and loss functions from scratch.",
+    tech: ["Python", "NumPy", "Matplotlib"],
+    github: "https://github.com/Kddipu12",
+    link: "https://lumiere.example.com"
+  },
+  {
+    title: "MediSync",
+    description: "Developed an Android application to manage doctor appointments securely and efficiently using decentralized identifiers and verifiable credentials.",
+    tech: ["Java", "Firebase", "Hyperledger Aries"],
+    github: "https://github.com/Kddipu12",
+    link: "https://medisync.example.com"
   },
 ];
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-12 sm:py-16 md:py-24 relative">
-      <div className="container mx-auto px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4">
-            <span className="bg-gradient-to-r from-neon-cyan to-neon-blue bg-clip-text text-transparent">
-              Featured Projects
-            </span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-neon-cyan to-neon-blue mx-auto mb-8 sm:mb-12 md:mb-16" />
-        </motion.div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Card className="bg-card/50 backdrop-blur-sm border-border/50 p-4 sm:p-6 h-full hover:shadow-xl transition-all hover:border-primary/50 flex flex-col">
-                <div className="flex items-start justify-between mb-3 sm:mb-4">
-                  <h3 className="text-lg sm:text-xl font-bold text-foreground pr-2">{project.title}</h3>
-                  <a
-                    href={project.link}
-                    className="text-primary hover:text-primary/80 transition-colors flex-shrink-0"
-                    aria-label="View project"
-                  >
-                    <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </a>
-                </div>
-
-                <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 flex-grow leading-relaxed">{project.description}</p>
-
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {project.tech.map((tech, techIndex) => (
-                    <Badge key={techIndex} variant="secondary" className="bg-secondary/50 text-xs sm:text-sm">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </Card>
-            </motion.div>
-          ))}
+    <section id="projects" className="relative">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="mb-16"
+      >
+        <div className="flex items-center gap-4 mb-4">
+          <span className="text-primary font-mono text-sm">04.</span>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase">Projects</h2>
+          <div className="h-px bg-gray-800 flex-1 ml-4" />
         </div>
+      </motion.div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {projects.map((project, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            className="group relative border border-gray-800 bg-black p-8 hover:border-primary/50 transition-colors"
+          >
+            <div className="flex justify-between items-start mb-6">
+              <div className="text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="w-10 h-10">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div className="flex gap-4">
+                <a href={project.github} className="text-gray-400 hover:text-primary transition-colors">
+                  <Github className="w-5 h-5" />
+                </a>
+                <a href={project.link} className="text-gray-400 hover:text-primary transition-colors">
+                  <ExternalLink className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
+
+            <h3 className="text-xl font-bold text-white mb-4 group-hover:text-primary transition-colors">{project.title}</h3>
+            <p className="text-gray-400 font-mono text-sm leading-relaxed mb-8">
+              {project.description}
+            </p>
+
+            <div className="flex flex-wrap gap-3 mt-auto">
+              {project.tech.map((tech, i) => (
+                <span key={i} className="text-xs font-mono text-gray-500">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

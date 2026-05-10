@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Card } from "./ui/card";
 import { Mail, Phone, Linkedin, Github } from "lucide-react";
 import { Button } from "./ui/button";
 
@@ -32,85 +31,47 @@ const contactInfo = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-12 sm:py-16 md:py-24 relative">
-      <div className="container mx-auto px-4 sm:px-6">
+    <section id="contact" className="relative pb-24">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="mb-16"
+      >
+        <div className="flex items-center gap-4 mb-4">
+          <span className="text-primary font-mono text-sm">07.</span>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight uppercase">Get In Touch</h2>
+          <div className="h-px bg-gray-800 flex-1 ml-4" />
+        </div>
+      </motion.div>
 
-        {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <h3 className="text-4xl md:text-6xl font-bold mb-6">What's Next?</h3>
+        <p className="text-gray-400 font-mono text-sm max-w-lg mb-12">
+          I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+        </p>
+
+        <Button
+          variant="outline"
+          className="border-primary text-primary hover:bg-primary/10 bg-transparent rounded-none px-8 py-6 uppercase tracking-wider text-xs font-mono transition-colors"
+          asChild
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4">
-            <span className="bg-gradient-to-r from-neon-cyan to-neon-blue bg-clip-text text-transparent">
-              Get In Touch
-            </span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-neon-cyan to-neon-blue mx-auto mb-8 sm:mb-12 md:mb-16" />
-        </motion.div>
+          <a href="mailto:dkrishnadas.mec@gmail.com">Say Hello</a>
+        </Button>
+      </div>
 
-        {/* Card Container */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto"
-        >
-          <Card className="bg-card/50 backdrop-blur-sm border-border/50 p-4 sm:p-6 md:p-8 lg:p-12">
-            <p className="text-base sm:text-lg text-muted-foreground text-center mb-6 sm:mb-8 px-2">
-              I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
-            </p>
-
-            {/* Contact Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              {contactInfo.map((contact, index) => (
-                <motion.a
-                  key={index}
-                  href={contact.href}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group h-full"
-                >
-                  <div className="flex items-start gap-3 sm:gap-4 p-4 sm:p-6 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-colors border border-border/50 hover:border-primary/50 h-full min-h-[100px] sm:min-h-[120px]">
-                    <div className="p-2 sm:p-3 bg-primary/20 rounded-lg group-hover:bg-primary/30 transition-colors flex-shrink-0">
-                      <contact.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs sm:text-sm text-muted-foreground mb-1">
-                        {contact.label}
-                      </p>
-                      <p className="text-sm sm:text-base text-foreground font-medium break-all sm:break-words leading-snug">
-                        {contact.value}
-                      </p>
-                    </div>
-                  </div>
-                </motion.a>
-              ))}
-            </div>
-
-            {/* Email Button */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="mt-6 sm:mt-8 text-center"
-            >
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm sm:text-base w-full sm:w-auto px-6 sm:px-8"
-                asChild
-              >
-                <a href="mailto:dkrishnadas.mec@gmail.com">Send an Email</a>
-              </Button>
-            </motion.div>
-          </Card>
-        </motion.div>
+      <div className="flex justify-center gap-8 mt-24">
+        {contactInfo.map((contact, index) => (
+          <a
+            key={index}
+            href={contact.href}
+            className="text-gray-500 hover:text-primary transition-colors"
+            aria-label={contact.label}
+          >
+            <contact.icon className="w-5 h-5" />
+          </a>
+        ))}
       </div>
     </section>
   );

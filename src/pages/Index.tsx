@@ -1,3 +1,4 @@
+import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
@@ -9,15 +10,18 @@ import Contact from "@/components/Contact";
 
 const Index = () => {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-black text-white selection:bg-primary selection:text-black">
+      <Navigation />
       <Hero />
-      <About />
-      <Experience />
-      <Skills />
-      <Projects />
-      <Education />
-      <Achievements />
-      <Contact />
+      <div className="max-w-6xl mx-auto px-8 py-24 space-y-48">
+        <About />
+        <Skills />
+        <Experience />
+        <Projects />
+        <Education />
+        <Achievements />
+        <Contact />
+      </div>
     </main>
   );
 };
