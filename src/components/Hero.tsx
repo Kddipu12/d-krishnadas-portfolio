@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import Scene3D from "./Scene3D";
+import SprayAnimation from "./SprayAnimation";
 import { Github, Linkedin, Mail, Phone } from "lucide-react";
 import { Button } from "./ui/button";
 
@@ -31,7 +31,7 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* 3D Background */}
       <div className="absolute inset-0 z-0">
-        <Scene3D />
+        <SprayAnimation />
       </div>
       
       {/* Gradient Overlay */}

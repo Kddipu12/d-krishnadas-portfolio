@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { ExternalLink } from "lucide-react";
+import SprayAnimation from "./SprayAnimation";
 
 const projects = [
   {
@@ -10,12 +11,28 @@ const projects = [
     tech: ["Langchain", "OpenAI API", "PostgreSQL", "RAG", "WhatsApp API"],
     link: "#",
   },
+  {
+    title: "CookieYes Affiliate Onboarding",
+    description: "An affiliate onboarding system for the CookieYes Partner Program featuring instant AI approval and recurring revenue tracking.",
+    tech: ["AI", "Affiliate Program"],
+    link: "https://www.cookieyes.com/partners/affiliates/",
+  },
+  {
+    title: "RenderYes",
+    description: "A framework for deterministic UI rendering in React, featuring constrained AI planning and secure data fetching.",
+    tech: ["React", "Node.js", "AI"],
+    link: "https://github.com/mozilor-technologies/RenderYes",
+  },
 ];
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-12 sm:py-16 md:py-24 relative">
-      <div className="container mx-auto px-4 sm:px-6">
+    <section id="projects" className="py-12 sm:py-16 md:py-24 relative overflow-hidden">
+      {/* Background 3D Effect */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
+        <SprayAnimation />
+      </div>
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
