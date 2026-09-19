@@ -1,129 +1,158 @@
-import { useRef, useMemo, Suspense } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, MeshDistortMaterial } from "@react-three/drei";
+import { useRef, useMemo, Suspense, useEffect } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
-const ParticleSystem = () => {
-  const count = 500; // Number of particles
-  const meshRef = useRef<THREE.InstancedMesh>(null);
+// Vertex shader
+const vertexShader = `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
 
-  // Particle properties arrays
-  const particles = useMemo(() => {
-    const temp = [];
-    for (let i = 0; i < count; i++) {
-      // Random starting angles and initial velocities for a fountain/spray effect
-      const angle = Math.random() * Math.PI * 2;
-      const radius = Math.random() * 0.5;
-      const velocityX = Math.cos(angle) * (Math.random() * 0.05 + 0.01);
-      const velocityY = Math.random() * 0.1 + 0.05; // Upward initial velocity
-      const velocityZ = Math.sin(angle) * (Math.random() * 0.05 + 0.01);
+// Fragment shader recreating the Cloudflare particle/dispersion effect
+const fragmentShader = `
+  uniform float uTime;
+  uniform vec2 uResolution;
+  uniform vec2 uMouse;
+  uniform float uMouseActive;
 
-      // Start near the center
-      const x = Math.cos(angle) * radius;
-      const y = (Math.random() - 0.5) * 0.5;
-      const z = Math.sin(angle) * radius;
+  varying vec2 vUv;
 
-      const timeOffset = Math.random() * 100; // Offset animation phase
-      const scale = Math.random() * 0.5 + 0.2; // Particle sizes
+  // Custom noise function
+  float hash(vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+  }
 
-      temp.push({
-        x, y, z, velocityX, velocityY, velocityZ, timeOffset, scale
-      });
+  float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
+               mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
+  }
+
+  void main() {
+    vec2 uv = vUv;
+
+    // Normalize coordinates
+    vec2 p = (gl_FragCoord.xy * 2.0 - uResolution.xy) / min(uResolution.x, uResolution.y);
+
+    // Base animated noise field (the "cloud/spray")
+    float time = uTime * 0.2;
+
+    // Multiple layers of noise to create the particle/dispersion look
+    float n1 = noise(p * 3.0 + time);
+    float n2 = noise(p * 8.0 - time * 1.5);
+    float n3 = noise(p * 15.0 + vec2(time * 2.0, -time));
+
+    float mask = (n1 * 0.5 + n2 * 0.3 + n3 * 0.2);
+
+    // Mouse interaction - scatter effect
+    float mouseDist = length(uv - uMouse);
+    float scatter = 0.0;
+
+    if (uMouseActive > 0.0) {
+      // Create a localized distortion/dispersion field around the mouse
+      scatter = smoothstep(0.2, 0.0, mouseDist) * uMouseActive;
+
+      // Jitter UVs near the mouse to create the "scatter" effect
+      vec2 jitter = vec2(
+        hash(floor(uv * 100.0 + time)) - 0.5,
+        hash(floor(uv * 100.0 - time)) - 0.5
+      ) * scatter * 0.5;
+
+      uv += jitter;
+      p += jitter * 2.0;
+
+      // Re-evaluate noise with scattered UVs
+      n1 = noise(p * 3.0 + time);
+      n2 = noise(p * 8.0 - time * 1.5);
+      mask = (n1 * 0.5 + n2 * 0.3 + n3 * 0.2);
+
+      // Add intense localized highlights near mouse
+      mask += smoothstep(0.1, 0.0, mouseDist) * noise(p * 50.0) * 0.5 * uMouseActive;
     }
-    return temp;
-  }, [count]);
 
-  const dummy = useMemo(() => new THREE.Object3D(), []);
+    // Color palette matching the dark theme + neon cyan/blue
+    vec3 color1 = vec3(0.0, 0.85, 1.0); // Cyan
+    vec3 color2 = vec3(0.1, 0.3, 0.9); // Deep blue
+    vec3 bg = vec3(0.05, 0.06, 0.08); // Dark background
 
-  // Use a predefined set of colors for the particles to match the neon aesthetic
-  const colors = useMemo(() => [
-    new THREE.Color("#00D9FF"), // Cyan
-    new THREE.Color("#4A90E2"), // Blue
-    new THREE.Color("#00FFC2"), // Neon Green
-    new THREE.Color("#B537F2"), // Purple
-  ], []);
+    // Shape the noise into discrete "particles" or chunks
+    // This creates the pixelated/halftone feel of the reference
+    float threshold = 0.45 - (scatter * 0.1);
+    float particles = smoothstep(threshold, threshold + 0.05, mask);
 
-  const colorArray = useMemo(() => {
-    const arr = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      color.toArray(arr, i * 3);
-    }
-    return arr;
-  }, [count, colors]);
+    // Mix colors based on density
+    vec3 finalColor = mix(bg, mix(color2, color1, mask + scatter), particles);
 
-  useFrame((state) => {
-    if (!meshRef.current) return;
+    // Add glowing haze
+    finalColor += color1 * mask * 0.3;
+    finalColor += color2 * scatter * 0.4;
 
-    particles.forEach((particle, i) => {
-      // Update position with velocity
-      particle.y += particle.velocityY;
-      particle.x += particle.velocityX;
-      particle.z += particle.velocityZ;
+    gl_FragColor = vec4(finalColor, 1.0);
+  }
+`;
 
-      // Gravity effect
-      particle.velocityY -= 0.002;
-
-      // Swirling effect based on time
-      const time = state.clock.elapsedTime + particle.timeOffset;
-      particle.x += Math.sin(time) * 0.01;
-      particle.z += Math.cos(time) * 0.01;
-
-      // Reset particles when they fall too far down
-      if (particle.y < -5) {
-        particle.y = (Math.random() - 0.5) * 0.5; // Reset to near center
-        particle.x = (Math.random() - 0.5) * 0.5;
-        particle.z = (Math.random() - 0.5) * 0.5;
-        particle.velocityY = Math.random() * 0.1 + 0.05; // Reset velocity
-      }
-
-      // Update the dummy object position
-      dummy.position.set(particle.x, particle.y, particle.z);
-
-      // Pulse scale
-      const currentScale = particle.scale * (1 + Math.sin(time * 3) * 0.2);
-      dummy.scale.set(currentScale, currentScale, currentScale);
-
-      dummy.updateMatrix();
-      meshRef.current!.setMatrixAt(i, dummy.matrix);
-    });
-
-    meshRef.current.instanceMatrix.needsUpdate = true;
-
-    // Slowly rotate the entire particle system
-    meshRef.current.rotation.y = state.clock.elapsedTime * 0.1;
-  });
-
-  return (
-    <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
-      <sphereGeometry args={[0.08, 16, 16]}>
-        <instancedBufferAttribute attach="attributes-color" args={[colorArray, 3]} />
-      </sphereGeometry>
-      <meshStandardMaterial vertexColors transparent opacity={0.8} />
-    </instancedMesh>
-  );
-};
-
-const CentralSphere = () => {
+const ShaderPlane = () => {
   const meshRef = useRef<THREE.Mesh>(null);
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const { size, viewport } = useThree();
+
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uResolution: { value: new THREE.Vector2(size.width, size.height) },
+      uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+      uMouseActive: { value: 0 },
+    }),
+    [size]
+  );
+
+  useEffect(() => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uResolution.value.set(size.width, size.height);
+    }
+  }, [size]);
 
   useFrame((state) => {
-    if (!meshRef.current) return;
-    meshRef.current.rotation.x = state.clock.elapsedTime * 0.5;
-    meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
+
+      // Update mouse position (normalized 0-1 range)
+      // state.pointer is -1 to 1, we need 0 to 1 with flipped Y for UV coordinates
+      const targetMouseX = (state.pointer.x + 1) / 2;
+      const targetMouseY = (state.pointer.y + 1) / 2;
+
+      materialRef.current.uniforms.uMouse.value.set(targetMouseX, targetMouseY);
+
+      // Fade in interaction when mouse moves
+      const isActive = Math.abs(state.pointer.x) > 0.01 || Math.abs(state.pointer.y) > 0.01;
+      const currentActive = materialRef.current.uniforms.uMouseActive.value;
+
+      materialRef.current.uniforms.uMouseActive.value = THREE.MathUtils.lerp(
+        currentActive,
+        isActive ? 1.0 : 0.0,
+        0.05
+      );
+    }
   });
 
   return (
-    <mesh ref={meshRef} position={[0, 0, 0]}>
-      <sphereGeometry args={[1.5, 64, 64]} />
-      <MeshDistortMaterial
-        color="#1E1E1E"
-        attach="material"
-        distort={0.4}
-        speed={1.5}
-        roughness={0.2}
-        metalness={0.8}
-        emissive="#000000"
+    <mesh ref={meshRef} scale={[viewport.width, viewport.height, 1]}>
+      <planeGeometry args={[1, 1]} />
+      <shaderMaterial
+        ref={materialRef}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+        transparent={true}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
       />
     </mesh>
   );
@@ -131,28 +160,15 @@ const CentralSphere = () => {
 
 export default function SprayAnimation() {
   return (
-    <Canvas
-      camera={{ position: [0, 2, 8], fov: 50 }}
-      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-    >
-      <Suspense fallback={null}>
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={2} color="#00D9FF" />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="#4A90E2" />
-        <pointLight position={[0, 0, 5]} intensity={1.5} color="#00FFC2" />
-
-        <CentralSphere />
-        <ParticleSystem />
-
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.5}
-          maxPolarAngle={Math.PI / 1.5}
-          minPolarAngle={Math.PI / 3}
-        />
-      </Suspense>
-    </Canvas>
+    <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", opacity: 0.7 }}>
+      <Canvas
+        camera={{ position: [0, 0, 1] }}
+        style={{ width: "100%", height: "100%", pointerEvents: "auto" }}
+      >
+        <Suspense fallback={null}>
+          <ShaderPlane />
+        </Suspense>
+      </Canvas>
+    </div>
   );
 }
