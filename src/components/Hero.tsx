@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import SprayAnimation from "./SprayAnimation";
+import { Canvas } from "@react-three/fiber";
+import CarGame from "./CarGame";
 import { Github, Linkedin, Mail, Phone } from "lucide-react";
 import { Button } from "./ui/button";
 
@@ -29,16 +30,24 @@ const scrollToSection = (sectionId: string, e?: React.MouseEvent) => {
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* 3D Background */}
+      {/* Car Game Background */}
       <div className="absolute inset-0 z-0">
-        <SprayAnimation />
+        <Canvas shadows camera={{ position: [0, 5, 10], fov: 50 }}>
+          <CarGame />
+        </Canvas>
       </div>
       
+      {/* Instructions Overlay */}
+      <div className="absolute top-4 left-4 z-30 p-2 sm:p-4 bg-black/50 border border-primary/20 backdrop-blur-sm rounded-lg text-primary font-mono text-xs sm:text-sm pointer-events-none">
+        <p className="mb-1 uppercase tracking-wider text-primary/70">Controls:</p>
+        <p>W/A/S/D or Arrows to drive</p>
+      </div>
+
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background z-10" />
       
       {/* Content */}
-      <div className="relative z-20 container mx-auto px-4 sm:px-6 py-16 sm:py-24 md:py-32">
+      <div className="relative z-20 container mx-auto px-4 sm:px-6 py-16 sm:py-24 md:py-32 pointer-events-none">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -102,7 +111,7 @@ export default function Hero() {
             <Button
               variant="default"
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm sm:text-base w-full sm:w-auto"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm sm:text-base w-full sm:w-auto pointer-events-auto"
               onClick={(e) => scrollToSection("contact", e)}
               type="button"
             >
@@ -112,7 +121,7 @@ export default function Hero() {
             <Button
               variant="outline"
               size="lg"
-              className="border-primary text-primary hover:bg-primary/10 text-sm sm:text-base w-full sm:w-auto"
+              className="border-primary text-primary hover:bg-primary/10 text-sm sm:text-base w-full sm:w-auto pointer-events-auto"
               onClick={(e) => scrollToSection("projects", e)}
               type="button"
             >
@@ -121,7 +130,7 @@ export default function Hero() {
           </motion.div>
           
           <motion.div
-            className="flex gap-4 sm:gap-6 justify-center pt-6 sm:pt-8"
+            className="flex gap-4 sm:gap-6 justify-center pt-6 sm:pt-8 pointer-events-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2.8, duration: 0.8 }}
