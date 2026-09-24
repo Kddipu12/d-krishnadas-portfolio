@@ -1,28 +1,31 @@
 import { motion } from "framer-motion";
-import { Card } from "./ui/card";
-import { Badge } from "./ui/badge";
+import SectionHeading from "./SectionHeading";
 
 const experiences = [
   {
     company: "Mozilor Technologies",
     role: "Software Engineer (R&D)",
-    period: "Feb 2025 - Present",
+    period: "Feb 2025 – Present",
     projects: [
       {
-        name: "Agency Sign-Up Automation",
-        description: "Automated agency verification workflow by scraping websites, vectorizing content (DistilBERT/FB embeddings), and classifying them against domain-specific keyword sets. Built automated email decisioning system.",
+        name: "AI Powered Affiliate Onboarding",
+        description:
+          "Affiliate onboarding for the CookieYes Partner Program, with instant AI approval and recurring revenue tracking.",
       },
       {
-        name: "Plugin Recommender System – WebToffee",
-        description: "Developed an AI-based plugin recommendation system using fine-tuned OpenAI models, trained on internal customer–plugin datasets.",
+        name: "RenderYes",
+        description:
+          "A framework for deterministic UI rendering in React, with constrained AI planning and secure data fetching.",
       },
       {
         name: "AI-First Revamp of WebYes",
-        description: "Granted full R&D ownership to transform WebYes into an AI-first platform. Successfully automated 20 out of 37 WCAG manual accessibility checks, an industry-leading achievement.",
+        description:
+          "Owned the R&D effort to turn WebYes into an AI-first platform. Automated 20 of 37 WCAG manual accessibility checks.",
       },
       {
         name: "Real User Monitoring (RUM)",
-        description: "Designed and built the entire RUM ingestion pipeline using AWS: API Gateway → Lambda (Go) → Kinesis Firehose → S3. Developed Go-based Lambda for metric enrichment and built client-side RUM SDK.",
+        description:
+          "Designed the RUM ingestion pipeline on AWS: API Gateway, Go Lambda, Kinesis Firehose, and S3. Built metric enrichment and the client-side RUM SDK.",
       },
     ],
   },
@@ -33,7 +36,8 @@ const experiences = [
     projects: [
       {
         name: "Baggage Tracking System",
-        description: "Contributed to improving baggage recovery workflows. Worked with JavaScript and CSS to implement UI changes and enhance user experience.",
+        description:
+          "Improved baggage recovery workflows and shipped UI changes in JavaScript and CSS.",
       },
     ],
   },
@@ -41,56 +45,41 @@ const experiences = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-12 sm:py-16 md:py-24 relative">
-      <div className="container mx-auto px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4">
-            <span className="bg-gradient-to-r from-neon-cyan to-neon-blue bg-clip-text text-transparent">
-              Experience
-            </span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-neon-cyan to-neon-blue mx-auto mb-8 sm:mb-12 md:mb-16" />
-        </motion.div>
+    <section id="experience" className="border-y border-border bg-secondary/40 py-16 md:py-24">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <SectionHeading
+          index="02"
+          title="Experience"
+          intro="Product work across AI automation, monitoring, and accessibility."
+        />
 
-        <div className="space-y-6 sm:space-y-8 max-w-4xl mx-auto">
+        <div className="space-y-6">
           {experiences.map((exp, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+            <motion.article
+              key={exp.company}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, delay: index * 0.05 }}
               viewport={{ once: true }}
+              className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8"
             >
-              <Card className="bg-card/50 backdrop-blur-sm border-border/50 p-4 sm:p-6 md:p-8 hover:shadow-xl transition-shadow">
-                <div className="flex flex-col sm:flex-row sm:items-start md:items-center md:justify-between mb-4 sm:mb-6 gap-2">
-                  <div className="flex-1">
-                    <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1 sm:mb-2">{exp.company}</h3>
-                    <p className="text-lg sm:text-xl text-primary font-semibold">{exp.role}</p>
-                  </div>
-                  <Badge className="bg-primary/20 text-primary border-primary text-xs sm:text-sm w-fit sm:w-auto">
-                    {exp.period}
-                  </Badge>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <h3 className="font-display text-2xl text-foreground sm:text-3xl">{exp.company}</h3>
+                  <p className="mt-1 text-sm text-primary sm:text-base">{exp.role}</p>
                 </div>
+                <p className="text-sm text-muted-foreground">{exp.period}</p>
+              </div>
 
-                <div className="space-y-4 sm:space-y-6">
-                  {exp.projects.map((project, projIndex) => (
-                    <div key={projIndex} className="border-l-2 border-primary/50 pl-3 sm:pl-4">
-                      <h4 className="text-base sm:text-lg font-semibold text-foreground mb-1 sm:mb-2">
-                        {project.name}
-                      </h4>
-                      <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                        {project.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-            </motion.div>
+              <div className="mt-6 grid gap-5 md:grid-cols-2">
+                {exp.projects.map((project) => (
+                  <div key={project.name} className="rounded-xl bg-secondary/70 p-4">
+                    <h4 className="font-sans text-sm font-semibold tracking-normal text-foreground">{project.name}</h4>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.article>
           ))}
         </div>
       </div>

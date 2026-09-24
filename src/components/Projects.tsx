@@ -1,25 +1,26 @@
 import { motion } from "framer-motion";
-import { Card } from "./ui/card";
-import { Badge } from "./ui/badge";
 import { ExternalLink } from "lucide-react";
-import SprayAnimation from "./SprayAnimation";
+import SectionHeading from "./SectionHeading";
 
 const projects = [
   {
     title: "Orma AI: Memory Support Bot",
-    description: "Developed a WhatsApp chatbot using Langchain and OpenAI API to assist dementia patients in recalling and recording memories. Implemented Retrieval Augmented Generation (RAG) to personalize responses based on past interactions.",
+    description:
+      "A WhatsApp chatbot built with Langchain and the OpenAI API to help dementia patients recall and record memories. Retrieval augmented generation personalizes replies from past conversations.",
     tech: ["Langchain", "OpenAI API", "PostgreSQL", "RAG", "WhatsApp API"],
-    link: "#",
+    link: "https://github.com/Kddipu12/Orma-AI",
   },
   {
     title: "CookieYes Affiliate Onboarding",
-    description: "An affiliate onboarding system for the CookieYes Partner Program featuring instant AI approval and recurring revenue tracking.",
-    tech: ["AI", "Affiliate Program"],
+    description:
+      "Affiliate onboarding for the CookieYes Partner Program, with instant AI approval and recurring revenue tracking.",
+    tech: ["AI", "Affiliate program"],
     link: "https://www.cookieyes.com/partners/affiliates/",
   },
   {
     title: "RenderYes",
-    description: "A framework for deterministic UI rendering in React, featuring constrained AI planning and secure data fetching.",
+    description:
+      "A framework for deterministic UI rendering in React, with constrained AI planning and secure data fetching.",
     tech: ["React", "Node.js", "AI"],
     link: "https://github.com/mozilor-technologies/RenderYes",
   },
@@ -27,59 +28,47 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-12 sm:py-16 md:py-24 relative overflow-hidden">
-      {/* Background 3D Effect */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
-        <SprayAnimation />
-      </div>
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-3 sm:mb-4">
-            <span className="bg-gradient-to-r from-neon-cyan to-neon-blue bg-clip-text text-transparent">
-              Featured Projects
-            </span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-neon-cyan to-neon-blue mx-auto mb-8 sm:mb-12 md:mb-16" />
-        </motion.div>
+    <section id="projects" className="border-y border-border bg-secondary/40 py-16 md:py-24">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <SectionHeading index="04" title="Projects" intro="Selected work from research, product, and side builds." />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Card className="bg-card/50 backdrop-blur-sm border-border/50 p-4 sm:p-6 h-full hover:shadow-xl transition-all hover:border-primary/50 flex flex-col">
-                <div className="flex items-start justify-between mb-3 sm:mb-4">
-                  <h3 className="text-lg sm:text-xl font-bold text-foreground pr-2">{project.title}</h3>
-                  <a 
-                    href={project.link}
-                    className="text-primary hover:text-primary/80 transition-colors flex-shrink-0"
-                    aria-label="View project"
-                  >
-                    <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </a>
+        <div className="grid gap-5 lg:grid-cols-3">
+          {projects.map((project, index) => {
+            const linked = project.link !== "#";
+            return (
+              <motion.article
+                key={project.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: index * 0.06 }}
+                viewport={{ once: true }}
+                className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-sm"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="font-display text-2xl leading-tight text-foreground">{project.title}</h3>
+                  {linked ? (
+                    <a
+                      href={project.link}
+                      className="mt-1 text-muted-foreground transition-colors hover:text-primary"
+                      aria-label={`Open ${project.title}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  ) : null}
                 </div>
-                
-                <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 flex-grow leading-relaxed">{project.description}</p>
-                
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {project.tech.map((tech, techIndex) => (
-                    <Badge key={techIndex} variant="secondary" className="bg-secondary/50 text-xs sm:text-sm">
+                <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
+                <ul className="mt-6 flex flex-wrap gap-2">
+                  {project.tech.map((tech) => (
+                    <li key={tech} className="rounded-full bg-secondary px-2.5 py-1 text-xs text-secondary-foreground">
                       {tech}
-                    </Badge>
+                    </li>
                   ))}
-                </div>
-              </Card>
-            </motion.div>
-          ))}
+                </ul>
+              </motion.article>
+            );
+          })}
         </div>
       </div>
     </section>

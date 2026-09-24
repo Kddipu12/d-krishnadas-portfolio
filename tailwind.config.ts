@@ -47,10 +47,10 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        neon: {
-          cyan: "hsl(var(--neon-cyan))",
-          blue: "hsl(var(--neon-blue))",
-        },
+      },
+      fontFamily: {
+        sans: ["Inter Tight", "Inter", "system-ui", "sans-serif"],
+        display: ["Inter Tight", "Inter", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -4,44 +4,36 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 8%;
 
-    --card: 0 0% 3%;
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 8%;
 
-    --popover: 0 0% 3%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 8%;
 
-    --primary: 142 71% 45%;
-    --primary-foreground: 0 0% 0%;
+    --primary: 0 0% 8%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 142 71% 45%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 8%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 46%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 142 71% 45%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 0 0% 8%;
 
-    --radius: 0rem;
+    --radius: 0.85rem;
 
-    /* Custom design tokens */
-    --neon-green: 142 71% 45%;
-    --deep-bg: 0 0% 0%;
-    --card-bg: 0 0% 3%;
-    --text-primary: 0 0% 100%;
-    --text-secondary: 0 0% 65%;
-
-    /* Animations */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
@@ -52,19 +44,18 @@
   }
 
   body {
-    @apply bg-background text-foreground;
-    background: #000000;
+    @apply bg-[#ececec] text-foreground font-sans antialiased;
     overflow-x: hidden;
-    font-family: 'JetBrains Mono', monospace;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
+    font-family: "Inter Tight", Inter, system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.04em;
   }
 
-  code, pre {
-    font-family: 'JetBrains Mono', monospace;
+  section[id] {
+    scroll-margin-top: 5.5rem;
   }
 
   /* Smooth scrolling */
@@ -78,7 +69,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #000000;
+    background: hsl(var(--background));
   }
 
   ::-webkit-scrollbar-thumb {
@@ -90,8 +81,22 @@
   }
 
   /* Text outline effect */
-  .text-outline {
+  .hero-fill,
+  .hero-stroke {
+    font-family: "Inter Tight", Inter, system-ui, sans-serif;
+    font-weight: 900;
+    letter-spacing: -0.07em;
+    line-height: 0.8;
+    font-size: clamp(4.2rem, 15.5vw, 12.5rem);
+  }
+
+  .hero-stroke {
     color: transparent;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+    -webkit-text-stroke: clamp(1px, 0.18vw, 2.5px) #111;
+  }
+
+  .portrait-fade {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 58%, transparent 92%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 58%, transparent 92%);
   }
 }

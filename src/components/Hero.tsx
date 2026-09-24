@@ -1,183 +1,66 @@
-import { motion } from "framer-motion";
-import { Canvas } from "@react-three/fiber";
-import CarGame from "./CarGame";
-import { Github, Linkedin, Mail, Phone } from "lucide-react";
-import { Button } from "./ui/button";
+import { ArrowUpRight } from "lucide-react";
+import { scrollToSection } from "@/lib/scroll";
 
-const scrollToSection = (sectionId: string, e?: React.MouseEvent) => {
-  e?.preventDefault();
-  e?.stopPropagation();
-  
-  // Update hash using HashRouter format (#/sectionId)
-  window.location.hash = `/${sectionId}`;
-  
-  // Use setTimeout to ensure DOM is ready
-  setTimeout(() => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      // Calculate offset to account for any fixed headers
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - 20; // 20px offset
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
-  }, 0);
-};
+const portrait = `${import.meta.env.BASE_URL}portrait.jpg`;
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Car Game Background */}
-      <div className="absolute inset-0 z-0">
-        <Canvas shadows camera={{ position: [0, 5, 10], fov: 50 }}>
-          <CarGame />
-        </Canvas>
-      </div>
-      
-      {/* Instructions Overlay */}
-      <div className="absolute top-4 left-4 z-30 p-2 sm:p-4 bg-black/50 border border-primary/20 backdrop-blur-sm rounded-lg text-primary font-mono text-xs sm:text-sm pointer-events-none">
-        <p className="mb-1 uppercase tracking-wider text-primary/70">Controls:</p>
-        <p>W/A/S/D or Arrows to drive</p>
-      </div>
+    <section className="relative overflow-hidden pb-8 pt-6 sm:pb-16 sm:pt-10">
+      <p className="text-center text-sm text-foreground/70 sm:text-base">
+        <span aria-hidden>👋</span>, my name is Krishnadas and I am a
+      </p>
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background z-10" />
-      
-      {/* Content */}
-      <div className="relative z-20 container mx-auto px-4 sm:px-6 py-16 sm:py-24 md:py-32 pointer-events-none">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center space-y-4 sm:space-y-6"
+      <div className="relative mx-auto mt-3 min-h-[560px] max-w-[1400px] px-2 sm:mt-5 sm:min-h-[680px] sm:px-6">
+        <h1 className="relative z-20 text-center">
+          <span className="hero-fill block text-foreground">Software</span>
+        </h1>
+
+        <button
+          type="button"
+          aria-label="See the work"
+          onClick={(event) => scrollToSection("projects", event)}
+          className="absolute left-1/2 top-[18%] z-30 flex h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full border border-foreground/15 bg-white shadow-sm transition-transform hover:scale-105 sm:h-14 sm:w-14"
         >
-          <motion.h1 
-            className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl xl:text-9xl font-cursive font-semibold leading-tight px-2 sm:px-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            <span className="bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-cyan bg-clip-text text-transparent inline-block">
-              {Array.from("D Krishnadas").map((char, index) => (
-                <motion.span
-                  key={index}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{
-                    duration: 0.05,
-                    delay: 0.4 + index * 0.1,
-                  }}
-                  className="inline-block"
-                >
-                  {char === " " ? "\u00A0" : char}
-                </motion.span>
-              ))}
-            </span>
-          </motion.h1>
-          
-          <motion.div
-            className="space-y-1 sm:space-y-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.8, duration: 0.8 }}
-          >
-            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold bg-gradient-to-r from-neon-cyan to-neon-blue bg-clip-text text-transparent">
-              Software Engineer
-            </p>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-primary/80 font-light tracking-wider">
-              Research & Development
-            </p>
-          </motion.div>
-          
-          <motion.p
-            className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.2, duration: 0.8 }}
-          >
-            Building AI-driven automation systems, real-user monitoring pipelines, 
-            and ML-powered solutions
-          </motion.p>
-          
-          <motion.div
-            className="flex flex-wrap gap-3 sm:gap-4 justify-center pt-6 sm:pt-8 px-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.6, duration: 0.8 }}
-          >
-            <Button
-              variant="default"
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-sm sm:text-base w-full sm:w-auto pointer-events-auto"
-              onClick={(e) => scrollToSection("contact", e)}
-              type="button"
-            >
-              Get In Touch
-            </Button>
-            
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-primary text-primary hover:bg-primary/10 text-sm sm:text-base w-full sm:w-auto pointer-events-auto"
-              onClick={(e) => scrollToSection("projects", e)}
-              type="button"
-            >
-              View Projects
-            </Button>
-          </motion.div>
-          
-          <motion.div
-            className="flex gap-4 sm:gap-6 justify-center pt-6 sm:pt-8 pointer-events-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.8, duration: 0.8 }}
-          >
-            <a 
-              href="mailto:dkrishnadas.mec@gmail.com" 
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Email"
-            >
-              <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
-            </a>
-            <a 
-              href="tel:+917012770184" 
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Phone"
-            >
-              <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
-            </a>
-            <a 
-              href="https://www.linkedin.com/in/dkrishnadas/" 
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
-            </a>
-            <a 
-              href="https://github.com/Kddipu12" 
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="GitHub"
-            >
-              <Github className="w-5 h-5 sm:w-6 sm:h-6" />
-            </a>
-          </motion.div>
-        </motion.div>
-      </div>
-      
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-20"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 10, 0] }}
-        transition={{ delay: 3, duration: 1.5, repeat: Infinity }}
-      >
-        <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-primary rounded-full flex justify-center">
-          <div className="w-1 h-2 sm:h-3 bg-primary rounded-full mt-1.5 sm:mt-2" />
+          <ArrowUpRight className="h-5 w-5" />
+        </button>
+
+        <p className="hero-stroke relative z-0 -mt-[0.08em] text-center" aria-hidden>
+          Engineer
+        </p>
+        <p className="sr-only">Software Engineer</p>
+
+        <img
+          src={portrait}
+          alt="D Krishnadas"
+          className="portrait-fade pointer-events-none absolute left-1/2 top-[18%] z-10 h-[420px] w-[320px] -translate-x-1/2 object-cover object-[center_20%] sm:top-[22%] sm:h-[520px] sm:w-[380px]"
+        />
+
+        <div className="relative z-20 mt-2 flex items-end justify-between gap-4 px-3 sm:mt-0 sm:px-2">
+          <p className="max-w-[9rem] text-left text-sm leading-snug text-foreground/80 sm:max-w-none sm:text-base">
+            based in Kochi, India.
+          </p>
+          <p className="hidden text-right text-sm tracking-wide text-foreground/45 sm:block">
+            Mozilor · AWS · OpenAI
+          </p>
         </div>
-      </motion.div>
+
+        <div className="absolute bottom-2 left-0 right-0 z-30 flex flex-col items-center justify-center gap-3 sm:bottom-6 sm:flex-row">
+          <button
+            type="button"
+            onClick={(event) => scrollToSection("projects", event)}
+            className="rounded-lg bg-foreground px-5 py-3 text-sm font-medium text-background"
+          >
+            See the work
+          </button>
+          <button
+            type="button"
+            onClick={(event) => scrollToSection("contact", event)}
+            className="rounded-lg border border-foreground/70 bg-white/80 px-5 py-3 text-sm font-medium text-foreground backdrop-blur-sm"
+          >
+            Get in touch
+          </button>
+        </div>
+      </div>
     </section>
   );
 }
