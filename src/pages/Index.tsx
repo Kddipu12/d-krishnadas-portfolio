@@ -1,4 +1,4 @@
-import Navbar from "@/components/Navbar";
+import SiteNav from "@/components/SiteNav";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
@@ -7,24 +7,22 @@ import Projects from "@/components/Projects";
 import Education from "@/components/Education";
 import Achievements from "@/components/Achievements";
 import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-[#030712] text-foreground relative selection:bg-cyan-500/30 selection:text-cyan-200">
-      <Navbar />
-      <main className="relative z-10 space-y-8">
-        <Hero />
-        <About />
-        <Experience />
-        <Skills />
-        <Projects />
-        <Education />
-        <Achievements />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <main className="min-h-screen bg-[#ececec] p-2 sm:p-3 md:p-4">
+      <div className="overflow-hidden rounded-[28px] bg-white">
+      <SiteNav />
+      <Hero />
+      <About />
+      <Experience />
+      <Skills />
+      <Projects />
+      <Education />
+      <Achievements />
+      <Contact />
+      </div>
+    </main>
   );
 };
 

@@ -26,7 +26,7 @@ const HashScrollHandler = () => {
         const element = document.getElementById(pathWithoutSlash);
         if (element) {
           const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - 20;
+          const offsetPosition = elementPosition + window.pageYOffset - 88;
           
           window.scrollTo({
             top: offsetPosition,
